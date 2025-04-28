@@ -9,7 +9,6 @@ spark = SparkSession.builder \
     .config("spark.executor.memory", "5g") \
     .getOrCreate()
 
-# Kafka’dan veri oku
 kafka_bootstrap_servers = "kafka:9092"
 topic = "sensor_data_topic"
 
@@ -26,8 +25,7 @@ except Exception as e:
     print(f"Kafka’dan veri okuma hatası: {e}")
     spark.stop()
     exit(1)
-
-# JSON şeması
+    
 schema = StructType([
     StructField("sensor_datetime_hm", TimestampType(), True),
     StructField("room_id", StringType(), True),
