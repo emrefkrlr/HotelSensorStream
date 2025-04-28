@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgres:15
+    hostname: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: sensor_data
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    ports:
+      - "5432:5432"
+    networks:
+      - hotel-sensor
+  spark_client:
+    container_name: spark_client
+    image: veribilimiokulu/pyspark:3.5.3_python-3.12_java17
+    ports:
+      - 8888:8888
+      - 8889:8888
+    networks:
+      - hotel-sensor
+    volumes:
+      - ./spark:/dataops
+      - ./spark/sensor_data:/dataops/sensor_data
+    command: sleep infinity
+  kafka:
+    container_name: kafka
+    image: erkansirin78/kafka:3.8.0
+    ports:
+      - "9092:9092"
+      - "9091:9091"
+    networks:
+      - hotel-sensor
+    volumes:
+      - ./kafka/config/server.properties:/kafka/config/server.properties
+  grafana:
+    image: grafana/grafana:9.5.0
+    hostname: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    depends_on:
+      - postgres
+    networks:
+      - hotel-sensor
+    volumes:
+      - grafana_data:/var/lib/grafana
+volumes:
+  pg_data:
+  spark:
+    driver: local
+  grafana_data:
+networks:
+  hotel-sensor:
+    driver: bridge

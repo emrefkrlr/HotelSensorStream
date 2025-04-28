@@ -1,0 +1,22 @@
+# Spark ve geçici dosyalar
+spark/checkpoint/
+spark/logs/
+*.log
+*.parquet
+output/
+
+# Python geçici dosyalar
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.ipynb_checkpoints/
+
+# Docker ve yerel veri
+pg_data/
+kafka-datagen/
+grafana_data/
+
+# Büyük veri dosyaları
+spark/sensor_data/*.csv
