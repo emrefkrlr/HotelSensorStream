@@ -78,8 +78,8 @@ Proje mimarisi şu bileşenlerden oluşur:
 ### Kurulum
 1. Depoyu klonlayın:
    ```bash
-   git clone <depo-url’si>
-   cd <depo-dizini>
+   git clone https://github.com/emrefkrlr/HotelSensorStream.git
+   cd HotelSensorStream
    ```
 
 2. Docker konteynerlerini başlatın:
